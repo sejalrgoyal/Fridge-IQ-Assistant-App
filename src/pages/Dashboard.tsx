@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, BookOpen, ChevronDown, MapPin, TrendingUp } from 'lucide-react';
+import { ChevronRight, BookOpen, ChevronDown, MapPin, TrendingUp, Sparkles, Scan, UtensilsCrossed, ShoppingCart, Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import GreetingHeader from '@/components/GreetingHeader';
 import { tabConfigs } from '@/data/tabConfig';
@@ -68,6 +68,7 @@ const HOW_TO_STEPS = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const [showHowTo, setShowHowTo] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
 
   const startTour = () => window.dispatchEvent(new Event('fridgeiq-start-tour'));
 
@@ -113,6 +114,59 @@ const Dashboard = () => {
       </motion.div>
 
       <motion.div variants={container} initial="hidden" animate="show">
+
+        {/* About FridgeIQ */}
+        <motion.div variants={itemAnim} className="mb-4 glass-elevated rounded-2xl overflow-hidden">
+          <button
+            onClick={() => setShowAbout(v => !v)}
+            className="w-full flex items-center gap-3 p-3.5 text-left"
+          >
+            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5 text-primary-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold">About FridgeIQ</p>
+              <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">What this app does and who it is for</p>
+            </div>
+            <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${showAbout ? 'rotate-180' : ''}`} />
+          </button>
+          <AnimatePresence initial={false}>
+            {showAbout && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <div className="px-4 pb-4 space-y-3">
+                  <p className="text-[12px] text-foreground leading-relaxed">
+                    FridgeIQ is an AI-powered kitchen assistant that helps you make the most of what you already have at home. It reduces food waste, saves money, and takes the stress out of meal planning.
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { icon: Scan,             gradient: 'gradient-info',   title: 'Smart Fridge Tracking',  desc: 'Scan or add items, track expiry dates, and get alerts before food goes off.' },
+                      { icon: UtensilsCrossed,  gradient: 'gradient-warm',   title: 'Personalised Recipes',   desc: 'Meal suggestions built around your diet, allergies, and what is actually in your fridge.' },
+                      { icon: ShoppingCart,     gradient: 'gradient-lime',   title: 'Smarter Grocery Trips',  desc: 'Auto-generated lists from your meal plan with estimated prices and duplicate checks.' },
+                      { icon: Trophy,           gradient: 'gradient-gold',   title: 'Habit Building',         desc: 'Track waste, earn achievement badges, and level up your kitchen skills over time.' },
+                    ].map(f => (
+                      <div key={f.title} className="bg-secondary/40 rounded-xl p-3">
+                        <div className={`w-7 h-7 rounded-lg ${f.gradient} flex items-center justify-center mb-2`}>
+                          <f.icon className="w-3.5 h-3.5 text-primary-foreground" />
+                        </div>
+                        <p className="text-[11px] font-semibold leading-snug">{f.title}</p>
+                        <p className="text-[10px] text-muted-foreground leading-relaxed mt-0.5">{f.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[11px] text-muted-foreground leading-relaxed">
+                    Best for anyone who wants to eat healthier, waste less, and spend less time deciding what to cook. All your data stays on your device.
+                  </p>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
 
         {/* How to Use collapsible */}
         <motion.div variants={itemAnim} className="mb-4 glass-elevated rounded-2xl overflow-hidden">
