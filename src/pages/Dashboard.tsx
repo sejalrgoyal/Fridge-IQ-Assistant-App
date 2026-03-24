@@ -118,14 +118,14 @@ const Dashboard = () => {
         <motion.div variants={itemAnim} className="mb-4 glass-elevated rounded-2xl overflow-hidden">
           <button
             onClick={() => setShowHowTo(v => !v)}
-            className="w-full flex items-center gap-3 p-4 text-left"
+            className="w-full flex items-center gap-4 p-4 text-left"
           >
-            <div className="w-8 h-8 rounded-xl gradient-violet flex items-center justify-center shrink-0">
-              <BookOpen className="w-4 h-4 text-primary-foreground" />
+            <div className="w-11 h-11 rounded-2xl gradient-violet flex items-center justify-center shrink-0">
+              <BookOpen className="w-5 h-5 text-primary-foreground" />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <p className="text-sm font-bold">How to Use FridgeIQ</p>
-              <p className="text-[11px] text-muted-foreground">9-step guide to every feature</p>
+              <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">9-step guide to every feature</p>
             </div>
             <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${showHowTo ? 'rotate-180' : ''}`} />
           </button>
