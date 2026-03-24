@@ -118,14 +118,14 @@ const Dashboard = () => {
         <motion.div variants={itemAnim} className="mb-4 glass-elevated rounded-2xl overflow-hidden">
           <button
             onClick={() => setShowHowTo(v => !v)}
-            className="w-full flex items-center gap-4 p-4 text-left"
+            className="w-full flex items-center gap-3 p-3.5 text-left"
           >
-            <div className="w-11 h-11 rounded-2xl gradient-violet flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl gradient-violet flex items-center justify-center shrink-0">
               <BookOpen className="w-5 h-5 text-primary-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold">How to Use FridgeIQ</p>
-              <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">9-step guide to every feature</p>
+              <p className="text-sm font-semibold">How to Use FridgeIQ</p>
+              <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">9-step guide to every feature</p>
             </div>
             <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${showHowTo ? 'rotate-180' : ''}`} />
           </button>
@@ -166,18 +166,18 @@ const Dashboard = () => {
         <motion.div variants={itemAnim} className="mb-4">
           <button
             onClick={startTour}
-            className="w-full glass-elevated rounded-2xl p-4 flex items-center gap-4 text-left active:scale-[0.98] transition-transform group"
+            className="w-full glass-elevated rounded-2xl p-3.5 flex items-center gap-3 text-left active:scale-[0.98] transition-transform"
           >
-            <div className="w-11 h-11 rounded-2xl gradient-primary flex items-center justify-center shrink-0 shadow-glow">
+            <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shrink-0">
               <MapPin className="w-5 h-5 text-primary-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold">Take the Guided Tour</p>
-              <p className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+              <p className="text-sm font-semibold">Take the Guided Tour</p>
+              <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
                 Interactive walkthrough of every tab. Tap each highlighted section to move forward.
               </p>
             </div>
-            <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0 group-hover:translate-x-0.5 transition-transform" />
+            <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
           </button>
         </motion.div>
 
@@ -185,14 +185,14 @@ const Dashboard = () => {
         <motion.div variants={itemAnim} className="mb-4 glass-elevated rounded-2xl overflow-hidden">
           <button
             onClick={() => setShowWeeklyNutrition(v => !v)}
-            className="w-full flex items-center gap-3 p-4 text-left"
+            className="w-full flex items-center gap-3 p-3.5 text-left"
           >
-            <div className="w-8 h-8 rounded-xl gradient-warm flex items-center justify-center shrink-0">
-              <TrendingUp className="w-4 h-4 text-primary-foreground" />
+            <div className="w-10 h-10 rounded-xl gradient-warm flex items-center justify-center shrink-0">
+              <TrendingUp className="w-5 h-5 text-primary-foreground" />
             </div>
-            <div className="flex-1">
-              <p className="text-sm font-bold">Weekly Nutrition</p>
-              <p className="text-[11px] text-muted-foreground">
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold">Weekly Nutrition</p>
+              <p className="text-[11px] text-muted-foreground leading-tight mt-0.5">
                 {weeklyNutrition
                   ? `Protein goal met ${weeklyNutrition.daysGoalMet.protein}/7 days this week`
                   : 'Track your daily intake in Profile'}
