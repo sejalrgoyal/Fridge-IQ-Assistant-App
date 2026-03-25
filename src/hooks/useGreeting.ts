@@ -34,8 +34,8 @@ const getTimezone = (): string => {
 };
 
 const getIdentity = () => {
-  let name = 'Chef';
-  let emoji = '👨‍🍳';
+  let name = 'Friend';
+  let emoji = '🙂';
   try {
     const profile = localStorage.getItem('fridgeiq_profile');
     if (profile) {
@@ -44,9 +44,9 @@ const getIdentity = () => {
       if (parsed.avatarEmoji) emoji = parsed.avatarEmoji;
     }
   } catch {}
-  if (name === 'Chef') {
+  if (name === 'Friend') {
     const stored = localStorage.getItem('fridgeiq_username');
-    if (stored) name = stored;
+    if (stored && stored.trim()) name = stored.trim();
   }
   return { firstName: name.split(' ')[0], avatarEmoji: emoji };
 };

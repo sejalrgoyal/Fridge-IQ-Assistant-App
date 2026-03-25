@@ -66,7 +66,7 @@ const loadProfile = (): UserProfile => {
     const saved = localStorage.getItem('fridgeiq_profile');
     if (saved) return JSON.parse(saved);
   } catch {}
-  return { name: 'Alex Johnson', age: '28', occupation: 'Software Engineer', householdSize: '2', bio: '', location: '', avatarEmoji: '👨‍🍳' };
+  return { name: '', age: '', occupation: '', householdSize: '1', bio: '', location: '', avatarEmoji: '🙂' };
 };
 
 const loadPrefs = (): Preferences => {
@@ -75,9 +75,9 @@ const loadPrefs = (): Preferences => {
     if (saved) return JSON.parse(saved);
   } catch {}
   return {
-    diet: 'Balanced', fitnessGoal: 'Muscle Gain', budget: '$80/week', cookingTime: 'Under 30 min',
-    allergies: ['Nuts'], dislikedFoods: ['Olives', 'Anchovies'], favoriteCuisines: ['Italian', 'Japanese', 'Mexican'],
-    mealPrepDays: ['Sun', 'Wed'], planningTime: '10 min/day', cookingSkill: 'Intermediate',
+    diet: 'Balanced', fitnessGoal: 'General Health', budget: '', cookingTime: '',
+    allergies: [], dislikedFoods: [], favoriteCuisines: [],
+    mealPrepDays: [], planningTime: '', cookingSkill: 'Beginner',
   };
 };
 
@@ -197,7 +197,7 @@ const ProfileScreen = () => {
       const saved = localStorage.getItem('fridgeiq_activity_stats');
       if (saved) return JSON.parse(saved);
     } catch {}
-    return { mealsCoooked: 47, wasteSavedKg: 2.1, streakDays: 3 };
+    return { mealsCoooked: 0, wasteSavedKg: 0, streakDays: 0 };
   };
   const [activityStats, setActivityStatsState] = useState<ActivityStats>(loadActivityStats);
   const [editingStats, setEditingStats] = useState(false);
