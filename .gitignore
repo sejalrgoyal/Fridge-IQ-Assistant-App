@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Generated demo assets (large binary source files — final outputs are kept)
+demo-assets/background-music.wav
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

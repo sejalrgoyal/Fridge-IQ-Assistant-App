@@ -1282,7 +1282,7 @@ const ProfileScreen = () => {
                       >
                         <summary className="flex items-center justify-between px-3 py-2.5 cursor-pointer text-xs font-medium text-foreground list-none [&::-webkit-details-marker]:hidden">
                           {faq.q}
-                          <ChevronRight className="w-3.5 h-3.5 text-muted-foreground transition-transform group-open:rotate-90 shrink-0 ml-2" />
+                          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground transition-transform group-open:rotate-180 shrink-0 ml-2" />
                         </summary>
                         <p className="px-3 pb-2.5 text-[11px] text-muted-foreground leading-relaxed">{faq.a}</p>
                       </motion.details>
