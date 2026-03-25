@@ -72,7 +72,3 @@ npm run dev
 Open [http://localhost:8087](http://localhost:8087) in your browser.
 
 ---
-
-## License
-
-MIT
