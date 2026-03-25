@@ -44,12 +44,15 @@ const AppRoutes = () => (
   </Routes>
 );
 
+const routerBasename =
+  import.meta.env.BASE_URL === "/" ? undefined : import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename}>
         <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
