@@ -811,10 +811,158 @@ async function captureScreenshots(browser) {
   console.log(`\n✅  ${shotN} screenshots saved → demo-assets/screenshots/\n`);
 }
 
-// ─── Video pass ───────────────────────────────────────────────────────────────
+// ─── Tight 90-second Video pass ───────────────────────────────────────────────
+//
+// Bottom-nav order: Home → Quiz → Chat → Fridge → Meals → Planner →
+//                   Grocery → Health → Share → Achievements → Profile
+// Each tab gets ~7 s → 11 tabs × 7 s ≈ 77 s + 5 s intro/outro ≈ 82 s
+// ffmpeg trims the final output to exactly 90 s max.
+
+const VIDEO_TABS = [
+  {
+    route: "/",
+    label: "Home",
+    async act(p) {
+      // Greeting → open About section → quick scroll
+      await waitFor(p, 600);
+      await tap(p, "button:has-text('About FridgeIQ')", 700);
+      await scroll(p, 160, 22);
+      await waitFor(p, 400);
+    },
+  },
+  {
+    route: "/food-quiz",
+    label: "Quiz",
+    async act(p) {
+      // Remove prefs so we see Start Quiz, then immediately start and pick Vegetarian
+      await p.evaluate(() => localStorage.removeItem("fridgeiq_prefs"));
+      await p.reload({ waitUntil: "domcontentloaded" });
+      await waitFor(p, 700);
+      await tap(p, "button:has-text('Start Quiz')", 500);
+      await tap(p, "button:has-text('Vegetarian')", 500);
+      await waitFor(p, 500);
+      // Restore prefs
+      await injectPersona(p);
+    },
+  },
+  {
+    route: "/chat",
+    label: "Chat",
+    async act(p) {
+      // Tap the "What's expiring soon?" suggestion, wait for response
+      await waitFor(p, 400);
+      await tap(p, "button:has-text(\"What's expiring\")", 300);
+      await waitFor(p, 1600);
+      await scroll(p, 120, 22);
+    },
+  },
+  {
+    route: "/scan",
+    label: "Fridge",
+    async act(p) {
+      // Switch to Inventory, expand an item, show edit modal briefly
+      await tap(p, "button:has-text('Inventory'), [role='tab']:has-text('Inventory')", 600);
+      // Click first item to expand
+      const item = p.locator("[class*='glass'], [class*='rounded'][class*='border']").first();
+      if (await item.isVisible({ timeout: 1500 }).catch(() => false)) {
+        await item.click(); await waitFor(p, 700);
+      }
+      await scroll(p, 120, 22);
+    },
+  },
+  {
+    route: "/meals",
+    label: "Meals",
+    async act(p) {
+      // Show grid, scroll a bit, open a recipe card
+      await waitFor(p, 400);
+      await scroll(p, 120, 22);
+      const card = p.locator("button:has-text('min'), div[class*='glass']:has-text('min')").first();
+      if (await card.isVisible({ timeout: 2000 }).catch(() => false)) {
+        await card.click(); await waitFor(p, 900);
+        await scroll(p, 160, 22);
+        await waitFor(p, 500);
+        await tap(p, "button:has(svg[data-lucide='x']), button:has-text('Close')", 400);
+      }
+    },
+  },
+  {
+    route: "/planner",
+    label: "Planner",
+    async act(p) {
+      // Show weekly plan, scroll, switch to monthly briefly
+      await waitFor(p, 400);
+      await scroll(p, 140, 22);
+      await tap(p, "button:has-text('Monthly'), button:has-text('Month')", 700);
+      await waitFor(p, 500);
+      await tap(p, "button:has-text('Weekly'), button:has-text('Week')", 500);
+    },
+  },
+  {
+    route: "/grocery",
+    label: "Grocery",
+    async act(p) {
+      // Expand Produce, expand Dairy, check off one item
+      await tap(p, "button:has-text('Produce'), button:has-text('🥬')", 500);
+      await tap(p, "button:has-text('Dairy'), button:has-text('🥛')", 500);
+      const chk = p.locator("button:has(svg[data-lucide='circle']), button:has(svg[data-lucide='check-circle-2'])").first();
+      if (await chk.isVisible({ timeout: 1500 }).catch(() => false)) {
+        await chk.click(); await waitFor(p, 500);
+      }
+      await scroll(p, 140, 22);
+    },
+  },
+  {
+    route: "/health-scan",
+    label: "Health",
+    async act(p) {
+      // Open search panel, type Nutella, see result
+      await tap(p, "button:has-text('Search'), button:has-text('Product Name'), button:has-text('by Name')", 600);
+      await typeIn(p, "input[type='text'], input[placeholder*='roduct']", "Nutella");
+      await tap(p, "button:has-text('Search'), button:has-text('Analyse'), button[type='submit']", 1000);
+      await scroll(p, 140, 22);
+    },
+  },
+  {
+    route: "/print-share",
+    label: "Share",
+    async act(p) {
+      // Expand first export option, show share buttons row
+      const btn = p.locator("button:has-text('Inventory'), button:has-text('Fridge')").first();
+      if (await btn.isVisible({ timeout: 1500 }).catch(() => false)) {
+        await btn.click(); await waitFor(p, 600);
+      }
+      await scroll(p, 200, 22);
+      await waitFor(p, 500);
+    },
+  },
+  {
+    route: "/achievements",
+    label: "Achievements",
+    async act(p) {
+      // Scroll through badge grid
+      await scroll(p, 220, 20);
+      await waitFor(p, 500);
+      await scroll(p, 200, 20);
+      await waitFor(p, 400);
+    },
+  },
+  {
+    route: "/profile",
+    label: "Profile",
+    async act(p) {
+      // Expand Personal (shows Sejal Goyal, Coppell TX), then Diet (Vegetarian)
+      await tap(p, "button:has-text('Personal')", 700);
+      await scroll(p, 120, 22);
+      await tap(p, "button:has-text('Diet')", 700);
+      await scroll(p, 100, 22);
+      await waitFor(p, 400);
+    },
+  },
+];
 
 async function captureVideo(browser) {
-  log("🎬", "Starting video recording pass…");
+  log("🎬", "Recording 90-second video (bottom-nav order)…");
 
   const ctx = await browser.newContext({
     viewport: VIEWPORT,
@@ -826,29 +974,31 @@ async function captureVideo(browser) {
   });
   const page = await ctx.newPage();
 
+  // Boot
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
   await waitLoad(page);
   await injectPersona(page);
   await page.reload({ waitUntil: "domcontentloaded" });
-  await waitFor(page, 1500);
+  await waitFor(page, 1200); // opening hold on Home
 
-  for (const tab of TABS) {
-    log("🎥", tab.label);
+  for (const tab of VIDEO_TABS) {
+    sub(`🎥  ${tab.label}`);
     await page.goto(`${BASE_URL}${tab.route}`, { waitUntil: "domcontentloaded" });
     await waitLoad(page);
-    await waitFor(page, 1200);
-    if (tab.fn) await tab.fn(page).catch((e) => sub(`⚠ ${e.message.slice(0, 80)}`));
+    await waitFor(page, 700);
+    await tab.act(page).catch((e) => sub(`⚠ ${e.message.slice(0, 60)}`));
     await page.evaluate(() => window.scrollTo(0, 0));
-    await waitFor(page, 800);
+    await waitFor(page, 500);
   }
 
-  // End on dashboard
+  // End back on Home
   await page.goto(BASE_URL, { waitUntil: "domcontentloaded" });
-  await waitFor(page, 1500);
+  await waitFor(page, 1200);
 
   const rawPath = await page.video()?.path();
   await ctx.close();
 
+  // Rename raw file
   const silentPath = path.join(VIDEO_DIR, "FridgeIQ-demo-silent.webm");
   if (rawPath && existsSync(rawPath)) {
     await copyFile(rawPath, silentPath);
@@ -916,17 +1066,26 @@ async function ensureMusic() {
   return true;
 }
 
-async function mixAudio(videoIn, audioIn, videoOut) {
+async function mixAudio(videoIn, audioIn, videoOut, maxSeconds = 90) {
   const ffmpegInstaller = require("@ffmpeg-installer/ffmpeg");
   const ffmpeg = require("fluent-ffmpeg");
   ffmpeg.setFfmpegPath(ffmpegInstaller.path);
   return new Promise((resolve, reject) => {
     ffmpeg()
-      .input(videoIn).input(audioIn)
-      .outputOptions(["-c:v copy","-c:a libopus","-b:a 128k","-shortest","-map 0:v:0","-map 1:a:0"])
+      .input(videoIn)
+      .input(audioIn)
+      .outputOptions([
+        `-t ${maxSeconds}`,  // hard trim at 90 s
+        "-c:v copy",         // copy video stream (no re-encode needed for trim)
+        "-c:a libopus",
+        "-b:a 96k",
+        "-shortest",
+        "-map 0:v:0",
+        "-map 1:a:0",
+      ])
       .output(videoOut)
       .on("end", resolve)
-      .on("error", (e, _s, err) => { sub(`⚠  ffmpeg: ${err?.slice(0,120)}`); reject(e); })
+      .on("error", (e, _s, err) => { sub(`⚠  Mix failed: ${(err||"").slice(0,200)}`); reject(e); })
       .run();
   });
 }
