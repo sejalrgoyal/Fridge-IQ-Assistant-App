@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920" />
+<title>FridgeIQ – Navigate the App</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0b0f19;
+    --card-bg: #131929;
+    --border: rgba(255,255,255,0.07);
+    --text: #f0f4ff;
+    --muted: #8898aa;
+  }
+
+  /* ── Page shell ───────────────────────────────────────────── */
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+  }
+
+  /* background mesh gradient */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 900px 700px at 5% 0%,   rgba(16,185,129,.18) 0%, transparent 60%),
+      radial-gradient(ellipse 700px 500px at 95% 100%, rgba(99,102,241,.18) 0%, transparent 60%),
+      radial-gradient(ellipse 600px 400px at 50% 110%, rgba(139,92,246,.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .page {
+    position: relative; z-index: 1;
+    padding: 48px 64px 36px;
+    height: 1080px;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Header ─────────────────────────────────────────────── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    flex-shrink: 0;
+  }
+
+  .logo-group { display: flex; align-items: center; gap: 18px; }
+
+  .logo-icon {
+    width: 62px; height: 62px; border-radius: 18px;
+    background: linear-gradient(135deg, #10b981, #0ea5e9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; box-shadow: 0 0 32px rgba(16,185,129,.45);
+  }
+
+  .logo-text h1 {
+    font-size: 36px; font-weight: 900; letter-spacing: -1px;
+    background: linear-gradient(90deg, #10b981, #0ea5e9);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .logo-text p {
+    font-size: 15px; color: var(--muted); font-weight: 500; margin-top: 2px;
+    letter-spacing: .02em;
+  }
+
+  .header-right {
+    text-align: right;
+  }
+  .header-right .slide-label {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--muted); margin-bottom: 4px;
+  }
+  .header-right .tagline {
+    font-size: 22px; font-weight: 700; color: var(--text);
+  }
+
+  /* divider */
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.1) 20%, rgba(255,255,255,.1) 80%, transparent);
+    margin-bottom: 32px;
+    flex-shrink: 0;
+  }
+
+  /* ── Tab grid ────────────────────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 16px;
+    align-items: stretch;
+    flex: 1;               /* stretch to fill remaining height */
+    min-height: 0;
+  }
+
+  /* numbered connector line between cards */
+  .grid::before {
+    content: '';
+    position: absolute;
+    top: 248px; left: 72px; right: 72px; height: 2px;
+    background: linear-gradient(90deg,
+      #10b981, #f59e0b, #f97316, #0ea5e9, #eab308,
+      #8b5cf6, #65a30d, #f43f5e, #6366f1, #ca8a04, #14b8a6);
+    opacity: .3;
+    pointer-events: none;
+  }
+
+  .tab-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 26px 18px 22px;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+  }
+
+  .card-top {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 14px;
+    min-height: 0;
+  }
+
+  .card-bottom {
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+
+  /* top accent bar */
+  .tab-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--accent);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 0 16px var(--accent-glow);
+  }
+
+  /* subtle glow behind icon */
+  .tab-card::after {
+    content: '';
+    position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 60px;
+    background: var(--accent-glow);
+    border-radius: 50%; filter: blur(22px); opacity: .55;
+    pointer-events: none;
+  }
+
+  .step-badge {
+    position: absolute; top: 12px; right: 14px;
+    font-size: 11px; font-weight: 700; color: rgba(255,255,255,.35);
+    letter-spacing: .04em;
+  }
+
+  .icon-wrap {
+    width: 52px; height: 52px; border-radius: 14px;
+    background: var(--accent-bg);
+    border: 1px solid var(--accent-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  .card-name {
+    font-size: 13.5px; font-weight: 800; text-align: center;
+    color: var(--text); letter-spacing: .01em; line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 11.5px; font-weight: 500; color: var(--muted);
+    text-align: center; line-height: 1.6;
+  }
+
+
+  .features {
+    list-style: none; display: flex; flex-direction: column; gap: 9px;
+  }
+  .features li {
+    font-size: 11px; font-weight: 500; color: rgba(240,244,255,.72);
+    display: flex; align-items: flex-start; gap: 7px; line-height: 1.45;
+  }
+  .features li .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0; margin-top: 3.5px;
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  /* ── Bottom bar ──────────────────────────────────────────── */
+  .bottom-bar {
+    margin-top: 24px;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .legend {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--muted); font-weight: 500;
+  }
+  .legend-arrow {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600;
+  }
+  .flow-dots {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .flow-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .flow-line { width: 18px; height: 2px; border-radius: 2px; background: rgba(255,255,255,.15); }
+
+  .byline {
+    font-size: 12px; color: var(--muted); font-weight: 500;
+    letter-spacing: .02em;
+  }
+
+  /* ── Per-tab accent colours ─────────────────────────────── */
+  .c1  { --accent:#10b981; --accent-glow:rgba(16,185,129,.5);  --accent-bg:rgba(16,185,129,.1);  --accent-border:rgba(16,185,129,.2);  }
+  .c2  { --accent:#f59e0b; --accent-glow:rgba(245,158,11,.5);  --accent-bg:rgba(245,158,11,.1);  --accent-border:rgba(245,158,11,.2);  }
+  .c3  { --accent:#f97316; --accent-glow:rgba(249,115,22,.5);  --accent-bg:rgba(249,115,22,.1);  --accent-border:rgba(249,115,22,.2);  }
+  .c4  { --accent:#0ea5e9; --accent-glow:rgba(14,165,233,.5);  --accent-bg:rgba(14,165,233,.1);  --accent-border:rgba(14,165,233,.2);  }
+  .c5  { --accent:#eab308; --accent-glow:rgba(234,179,8,.5);   --accent-bg:rgba(234,179,8,.1);   --accent-border:rgba(234,179,8,.2);   }
+  .c6  { --accent:#8b5cf6; --accent-glow:rgba(139,92,246,.5);  --accent-bg:rgba(139,92,246,.1);  --accent-border:rgba(139,92,246,.2);  }
+  .c7  { --accent:#65a30d; --accent-glow:rgba(101,163,13,.5);  --accent-bg:rgba(101,163,13,.1);  --accent-border:rgba(101,163,13,.2);  }
+  .c8  { --accent:#f43f5e; --accent-glow:rgba(244,63,94,.5);   --accent-bg:rgba(244,63,94,.1);   --accent-border:rgba(244,63,94,.2);   }
+  .c9  { --accent:#6366f1; --accent-glow:rgba(99,102,241,.5);  --accent-bg:rgba(99,102,241,.1);  --accent-border:rgba(99,102,241,.2);  }
+  .c10 { --accent:#ca8a04; --accent-glow:rgba(202,138,4,.5);   --accent-bg:rgba(202,138,4,.1);   --accent-border:rgba(202,138,4,.2);   }
+  .c11 { --accent:#14b8a6; --accent-glow:rgba(20,184,166,.5);  --accent-bg:rgba(20,184,166,.1);  --accent-border:rgba(20,184,166,.2);  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Header ── -->
+  <header class="header">
+    <div class="logo-group">
+      <div class="logo-icon">🧊</div>
+      <div class="logo-text">
+        <h1>FridgeIQ</h1>
+        <p>AI-Powered Smart Kitchen Assistant</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="slide-label">App Walkthrough</div>
+      <div class="tagline">Navigate the App — 11 Tabs, One Smart Kitchen</div>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- ── Tab Grid ── -->
+  <div class="grid">
+
+    <!-- 1 · Home -->
+    <div class="tab-card c1">
+      <span class="step-badge">01</span>
+      <div class="card-top">
+        <div class="icon-wrap">🏠</div>
+        <div class="card-name">Home</div>
+        <div class="card-desc">Your personalised dashboard &amp; app launchpad</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Greeting &amp; weekly nutrition ring</li>
+          <li><span class="dot"></span>Feature card shortcuts</li>
+          <li><span class="dot"></span>Guided Tour overlay</li>
+          <li><span class="dot"></span>About &amp; How-to sections</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2 · Food Quiz -->
+    <div class="tab-card c2">
+      <span class="step-badge">02</span>
+      <div class="card-top">
+        <div class="icon-wrap">📋</div>
+        <div class="card-name">Food Quiz</div>
+        <div class="card-desc">Set dietary needs to personalise everything</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Diet type (Vegetarian…)</li>
+          <li><span class="dot"></span>Allergies &amp; intolerances</li>
+          <li><span class="dot"></span>Cuisine &amp; cooking prefs</li>
+          <li><span class="dot"></span>Calorie &amp; meal-size goals</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 3 · AI Chat -->
+    <div class="tab-card c3">
+      <span class="step-badge">03</span>
+      <div class="card-top">
+        <div class="icon-wrap">💬</div>
+        <div class="card-name">AI Chat</div>
+        <div class="card-desc">Ask the AI what to cook from your fridge</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Context-aware suggestions</li>
+          <li><span class="dot"></span>One-tap quick prompts</li>
+          <li><span class="dot"></span>Expiry &amp; nutrition alerts</li>
+          <li><span class="dot"></span>Recipe step-by-step mode</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4 · Fridge Scan -->
+    <div class="tab-card c4">
+      <span class="step-badge">04</span>
+      <div class="card-top">
+        <div class="icon-wrap">📸</div>
+        <div class="card-name">Fridge Scan</div>
+        <div class="card-desc">Auto-detect food items via camera or barcode</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>AI photo recognition</li>
+          <li><span class="dot"></span>Barcode scanning</li>
+          <li><span class="dot"></span>Inventory &amp; expiry tracker</li>
+          <li><span class="dot"></span>Restock expiring items</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5 · AI Meals -->
+    <div class="tab-card c5">
+      <span class="step-badge">05</span>
+      <div class="card-top">
+        <div class="icon-wrap">🍽️</div>
+        <div class="card-name">AI Meals</div>
+        <div class="card-desc">Browse AI-curated recipes matched to your fridge</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Smart recipe filters</li>
+          <li><span class="dot"></span>Like &amp; save favourites</li>
+          <li><span class="dot"></span>Add custom meals</li>
+          <li><span class="dot"></span>Prep time &amp; nutrition info</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 6 · Meal Plan -->
+    <div class="tab-card c6">
+      <span class="step-badge">06</span>
+      <div class="card-top">
+        <div class="icon-wrap">📅</div>
+        <div class="card-name">Meal Plan</div>
+        <div class="card-desc">Plan the week with a visual calendar</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Weekly &amp; monthly views</li>
+          <li><span class="dot"></span>Slot assignment per meal</li>
+          <li><span class="dot"></span>Nutrition week overview</li>
+          <li><span class="dot"></span>Sync with grocery list</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 7 · Grocery -->
+    <div class="tab-card c7">
+      <span class="step-badge">07</span>
+      <div class="card-top">
+        <div class="icon-wrap">🛒</div>
+        <div class="card-name">Grocery List</div>
+        <div class="card-desc">Auto-generated shopping list with live prices</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Categorised by aisle</li>
+          <li><span class="dot"></span>Store price comparison</li>
+          <li><span class="dot"></span>Multi-store route planner</li>
+          <li><span class="dot"></span>Location-aware search</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 8 · Health Scan -->
+    <div class="tab-card c8">
+      <span class="step-badge">08</span>
+      <div class="card-top">
+        <div class="icon-wrap">🛡️</div>
+        <div class="card-name">Health Scan</div>
+        <div class="card-desc">Instant health scores for any packaged product</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Camera / barcode input</li>
+          <li><span class="dot"></span>Ingredient breakdown</li>
+          <li><span class="dot"></span>Healthier alternatives</li>
+          <li><span class="dot"></span>Nutrition grade (A–E)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 9 · Print & Share -->
+    <div class="tab-card c9">
+      <span class="step-badge">09</span>
+      <div class="card-top">
+        <div class="icon-wrap">🖨️</div>
+        <div class="card-name">Print &amp; Share</div>
+        <div class="card-desc">Export any screen as PDF or share instantly</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>One-tap PDF export</li>
+          <li><span class="dot"></span>WhatsApp / link share</li>
+          <li><span class="dot"></span>Live content preview</li>
+          <li><span class="dot"></span>Fridge, meals &amp; grocery</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 10 · Achievements -->
+    <div class="tab-card c10">
+      <span class="step-badge">10</span>
+      <div class="card-top">
+        <div class="icon-wrap">🏆</div>
+        <div class="card-name">Achievements</div>
+        <div class="card-desc">Earn badges &amp; track your healthy-eating journey</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>XP level &amp; streaks</li>
+          <li><span class="dot"></span>30+ unlockable badges</li>
+          <li><span class="dot"></span>Activity &amp; progress log</li>
+          <li><span class="dot"></span>Nutrition milestones</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 11 · Profile -->
+    <div class="tab-card c11">
+      <span class="step-badge">11</span>
+      <div class="card-top">
+        <div class="icon-wrap">👤</div>
+        <div class="card-name">Profile</div>
+        <div class="card-desc">Manage your preferences, goals &amp; settings</div>
+      </div>
+      <div class="card-bottom">
+        <ul class="features">
+          <li><span class="dot"></span>Personal &amp; diet info</li>
+          <li><span class="dot"></span>Goals &amp; fitness targets</li>
+          <li><span class="dot"></span>Privacy &amp; app settings</li>
+          <li><span class="dot"></span>Help &amp; FAQ section</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- ── Bottom bar ── -->
+  <div class="bottom-bar">
+    <div class="legend">
+      <div class="flow-dots">
+        <div class="flow-dot" style="background:#10b981"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#f59e0b"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#f97316"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#0ea5e9"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#eab308"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#8b5cf6"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#65a30d"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#f43f5e"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#6366f1"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#ca8a04"></div>
+        <div class="flow-line"></div>
+        <div class="flow-dot" style="background:#14b8a6"></div>
+      </div>
+      <span>Bottom navigation bar — left to right</span>
+    </div>
+
+    <div class="legend-arrow">
+      <span style="color:rgba(255,255,255,.4)">Tap any tab icon to jump directly to that screen</span>
+    </div>
+
+    <div class="byline">FridgeIQ · Sejal Goyal · 2025</div>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
