@@ -19,6 +19,13 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+/** React Router basename for GitHub Pages (matches Vite `base`, no trailing slash) */
+const routerBasename = (() => {
+  let b = import.meta.env.BASE_URL;
+  if (b.endsWith("/")) b = b.slice(0, -1);
+  return b || undefined;
+})();
+
 /**
  * Routes are defined WITHOUT a key on <Routes> and WITHOUT wrapping
  * AnimatePresence here.  AppLayout is persistent across navigations —
@@ -43,9 +50,6 @@ const AppRoutes = () => (
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
-
-const routerBasename =
-  import.meta.env.BASE_URL === "/" ? undefined : import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

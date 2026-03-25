@@ -72,3 +72,14 @@ npm run dev
 Open [http://localhost:8087](http://localhost:8087) in your browser.
 
 ---
+
+## GitHub Pages
+
+1. In the repository, go to **Settings → Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Push to `main`. The workflow **Deploy to GitHub Pages** builds and publishes the site.
+4. The live URL is `https://<your-username>.github.io/Fridge-IQ-Assistant-App/` (the path must match your repository name).
+
+Local build matching Pages: `npm run build:gh-pages` (writes `dist/` and copies `index.html` to `404.html` via `scripts/build-github-pages.mjs`). If you rename the repo, update `REPO_SLUG` in that script and `VITE_BASE_PATH` in `.github/workflows/deploy-github-pages.yml`.
+
+---

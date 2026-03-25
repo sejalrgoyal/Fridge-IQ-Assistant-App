@@ -1,11 +1,12 @@
-# Build and deploy to GitHub Pages (Settings → Pages → Source: GitHub Actions).
-# If your repository name is not Fridge-IQ-Assistant-App, change VITE_BASE_PATH below.
+# Deploys the Vite app to GitHub Pages.
+# Repo Settings → Pages → Build and deployment → Source: GitHub Actions
+# Site URL: https://<user>.github.io/Fridge-IQ-Assistant-App/
+
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -27,14 +28,16 @@ jobs:
           node-version: "20"
           cache: npm
 
-      - name: Install and build
+      - run: npm ci
+
+      - name: Build for GitHub Pages
         env:
-          # Must match your repo name for https://<user>.github.io/<repo>/
+          # Must match your repository name (case-sensitive path segment)
           VITE_BASE_PATH: /Fridge-IQ-Assistant-App/
-        run: |
-          npm ci
-          npm run build
-          cp dist/index.html dist/404.html
+        run: npm run build
+
+      - name: SPA fallback (direct URL refresh / deep links)
+        run: cp dist/index.html dist/404.html
 
       - uses: actions/upload-pages-artifact@v3
         with:
@@ -45,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deploy
-        uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v4
+        id: deployment
