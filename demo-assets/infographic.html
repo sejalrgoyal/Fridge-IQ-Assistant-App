@@ -11,7 +11,7 @@ body{
   font-family:'Inter',system-ui,sans-serif;
   background:#0d1117;
   width:1600px;
-  height:860px;
+  height:720px;
   overflow:hidden;
 }
 body::before{
@@ -24,9 +24,11 @@ body::before{
 /* ── LAYOUT ─────────────────────────────────── */
 .canvas{
   position:relative;z-index:1;
-  padding:44px 56px 40px;
-  height:860px;
+  padding:36px 52px 32px;
+  height:720px;
   display:flex;flex-direction:column;
+  justify-content:center;
+  gap:0;
 }
 
 /* Each row is its own 6-col grid — same width = equal card sizes */
@@ -34,22 +36,23 @@ body::before{
   display:grid;
   grid-template-columns:repeat(6,1fr);
   gap:0;
-  flex:1;min-height:0;
   align-items:stretch;
+  height:268px;      /* fixed shorter card height */
+  flex-shrink:0;
 }
 
 /* the gap between rows — holds the L-connector */
 .connector-row{
-  height:36px;flex-shrink:0;
+  height:32px;flex-shrink:0;
   position:relative;
 }
 
 /* ── FLOW UNIT = card + arrow ────────────────── */
-.unit{display:flex;align-items:stretch;min-width:0;align-self:stretch;}
+.unit{display:flex;align-items:stretch;min-width:0;}
 
 /* ── ARROW ──────────────────────────────────── */
 .arr{
-  flex-shrink:0;width:32px;
+  flex-shrink:0;width:28px;
   display:flex;align-items:center;justify-content:center;
   align-self:center;
 }
@@ -60,8 +63,8 @@ body::before{
   background:#161b27;
   border:1.5px solid rgba(255,255,255,.08);
   border-radius:14px;
-  padding:22px 18px 18px;
-  display:flex;flex-direction:column;gap:10px;
+  padding:18px 16px 16px;
+  display:flex;flex-direction:column;gap:8px;
   position:relative;overflow:hidden;
   height:100%;
 }
@@ -79,45 +82,45 @@ body::before{
 }
 
 .step{
-  position:absolute;top:11px;right:13px;
-  font-size:10px;font-weight:700;letter-spacing:.06em;
-  color:rgba(255,255,255,.25);
+  position:absolute;top:10px;right:12px;
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  color:rgba(255,255,255,.28);
 }
 
 .icon{
-  width:42px;height:42px;border-radius:11px;
+  width:40px;height:40px;border-radius:10px;
   background:var(--b);border:1px solid var(--e);
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;flex-shrink:0;
+  font-size:21px;flex-shrink:0;
   position:relative;z-index:1;
 }
 
 .name{
-  font-size:14.5px;font-weight:800;
-  color:#e4ecf7;letter-spacing:.01em;line-height:1.2;
+  font-size:17px;font-weight:800;
+  color:#e8f0ff;letter-spacing:.01em;line-height:1.15;
 }
 
 .desc{
-  font-size:11px;font-weight:500;color:#68788f;
-  line-height:1.55;
+  font-size:12.5px;font-weight:500;color:#6e82a0;
+  line-height:1.45;
 }
 
 /* separator */
 .sep{
-  height:1px;background:rgba(255,255,255,.06);
-  flex-shrink:0;margin:2px 0;
+  height:1px;background:rgba(255,255,255,.07);
+  flex-shrink:0;
 }
 
-.bullets{list-style:none;display:flex;flex-direction:column;gap:5px;margin-top:2px;}
+.bullets{list-style:none;display:flex;flex-direction:column;gap:5px;}
 .bullets li{
-  display:flex;align-items:flex-start;gap:6px;
-  font-size:10.5px;font-weight:500;
-  color:rgba(210,225,255,.62);line-height:1.4;
+  display:flex;align-items:flex-start;gap:7px;
+  font-size:12px;font-weight:500;
+  color:rgba(215,230,255,.72);line-height:1.35;
 }
 .dot{
-  width:5px;height:5px;border-radius:50%;
-  background:var(--c);flex-shrink:0;margin-top:3.5px;
-  box-shadow:0 0 6px var(--g);
+  width:6px;height:6px;border-radius:50%;
+  background:var(--c);flex-shrink:0;margin-top:3px;
+  box-shadow:0 0 7px var(--g);
 }
 
 /* ── COLOURS ────────────────────────────────── */

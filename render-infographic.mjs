@@ -6,7 +6,7 @@ const outPng = resolve('demo-assets/infographic.png');
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage();
-await page.setViewportSize({ width: 1600, height: 880 });
+await page.setViewportSize({ width: 1600, height: 720 });
 await page.goto(`file:///${file.replace(/\\/g, '/')}`, { waitUntil: 'networkidle' });
 await page.waitForTimeout(900);
 await page.screenshot({ path: outPng, fullPage: false });
