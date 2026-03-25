@@ -18,12 +18,12 @@ const HOW_TO_STEPS = [
   {
     emoji: '📸',
     title: '2. Scan or add items to your fridge',
-    desc: 'Open the Fridge tab and tap the camera button to photograph your open fridge. AI detects food items and estimates their expiry dates automatically. You can also add items manually, scan barcodes, or tap the pencil icon to edit any item and update its name, quantity, storage location, or expiry date.',
+    desc: 'Open the Fridge tab and tap the camera button to photograph your open fridge. AI detects food items and estimates their expiration dates automatically. You can also add items manually, scan barcodes, or tap the pencil icon to edit any item and update its name, quantity, storage location, or expiration date.',
     path: '/scan',
   },
   {
     emoji: '🍽️',
-    title: '3. Browse personalised meal suggestions',
+    title: '3. Browse personalized meal suggestions',
     desc: 'The Meals tab shows recipes filtered to your diet and sorted by how many ingredients you already own. Each recipe card shows ingredient availability at a glance. Tap a recipe to see the full instructions, a serving size scaler that recalculates all quantities and calories, and a full nutrition breakdown.',
     path: '/meals',
   },
@@ -145,8 +145,8 @@ const Dashboard = () => {
                   </p>
                   <div className="grid grid-cols-2 gap-2">
                     {[
-                      { icon: Scan,             gradient: 'gradient-info',   title: 'Smart Fridge Tracking',  desc: 'Scan or add items, track expiry dates, and get alerts before food goes off.' },
-                      { icon: UtensilsCrossed,  gradient: 'gradient-warm',   title: 'Personalised Recipes',   desc: 'Meal suggestions built around your diet, allergies, and what is actually in your fridge.' },
+                      { icon: Scan,             gradient: 'gradient-info',   title: 'Smart Fridge Tracking',  desc: 'Scan or add items, track expiration dates, and get alerts before food goes off.' },
+                      { icon: UtensilsCrossed,  gradient: 'gradient-warm',   title: 'Personalized Recipes',   desc: 'Meal suggestions built around your diet, allergies, and what is actually in your fridge.' },
                       { icon: ShoppingCart,     gradient: 'gradient-lime',   title: 'Smarter Grocery Trips',  desc: 'Auto-generated lists from your meal plan with estimated prices and duplicate checks.' },
                       { icon: Trophy,           gradient: 'gradient-gold',   title: 'Habit Building',         desc: 'Track waste, earn achievement badges, and level up your kitchen skills over time.' },
                     ].map(f => (

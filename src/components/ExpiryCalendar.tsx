@@ -56,7 +56,7 @@ const ExpiryCalendar: React.FC<Props> = ({ items }) => {
             <CalendarDays className="w-3.5 h-3.5 text-primary-foreground" />
           </div>
           <div>
-            <p className="text-sm font-bold leading-tight">Expiry Calendar</p>
+            <p className="text-sm font-bold leading-tight">Expiration Calendar</p>
             {urgentThisMonth > 0 && (
               <p className="text-[10px] text-red-500 font-semibold flex items-center gap-0.5">
                 <AlertCircle className="w-2.5 h-2.5" /> {urgentThisMonth} item{urgentThisMonth > 1 ? 's' : ''} expiring soon

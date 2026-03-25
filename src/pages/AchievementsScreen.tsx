@@ -46,7 +46,7 @@ const BADGES: BadgeDef[] = [
   },
   {
     id: 'quiz-done',   emoji: '🎯', label: 'Food Quiz', category: 'starter',
-    desc: 'FridgeIQ is now personalised for your lifestyle.',
+    desc: 'FridgeIQ is now personalized for your lifestyle.',
     how: 'Complete the Food Quiz.',
     icon: Star, gradient: 'gradient-info', xp: 30,
     check: d => ({ unlocked: d.hasQuiz, progress: d.hasQuiz ? 1 : 0, goal: 1 }),
@@ -119,7 +119,7 @@ const CATEGORY_META: Record<string, { label: string; emoji: string; color: strin
 // ── Motivational quotes ───────────────────────────────────────────────────────
 const QUOTES = [
   'Every saved ingredient is a small victory. 🌱',
-  'The best fridge is an organised fridge. 📦',
+  'The best fridge is an organized fridge. 📦',
   'Waste less, enjoy more. ♻️',
   'Great chefs plan ahead. 📅',
   'Your habits are changing the planet. 🌍',

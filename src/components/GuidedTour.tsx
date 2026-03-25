@@ -52,7 +52,7 @@ const STEPS: Step[] = [
 
   { id: 'quiz-cta',     kind: 'modal',      navRoute: null,            route: '/food-quiz',   tapLabel: '',
     title: '📋 Coming up: the Food Quiz',
-    body:  "We'll visit the Food Quiz tab next. It has 8 quick questions that personalise your recipes, grocery prices, and nutrition goals. You can take it any time after the tour too. Let's keep going!" },
+    body:  "We'll visit the Food Quiz tab next. It has 8 quick questions that personalize your recipes, grocery prices, and nutrition goals. You can take it any time after the tour too. Let's keep going!" },
 
   { id: 'quiz',         kind: 'nav',        navRoute: '/food-quiz',    route: '/food-quiz',   tapLabel: 'Quiz',
     title: '📋 Quiz tab',
@@ -92,7 +92,7 @@ const STEPS: Step[] = [
 
   { id: 'done',         kind: 'modal',      navRoute: null,            route: '/',            tapLabel: '',
     title: "🎉 You're all set!",
-    body:  "FridgeIQ is now personalised just for you. Your first mission: take the Food Quiz if you haven't yet, then scan your fridge to unlock recipe suggestions and your smart grocery list. Have fun!" },
+    body:  "FridgeIQ is now personalized just for you. Your first mission: take the Food Quiz if you haven't yet, then scan your fridge to unlock recipe suggestions and your smart grocery list. Have fun!" },
 ];
 
 const GOALS = [
@@ -337,7 +337,7 @@ const GuidedTour = ({ onDone }: Props) => {
                 <div className="bg-primary/8 border border-primary/20 rounded-2xl p-4 mb-4 flex items-start gap-3">
                   <Sparkles className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <p className="text-xs text-primary font-semibold leading-relaxed">
-                    Completing the quiz unlocks personalised recipes, accurate nutrition goals, and the Food Quiz badge. You can take it from the Quiz tab any time!
+                    Completing the quiz unlocks personalized recipes, accurate nutrition goals, and the Food Quiz badge. You can take it from the Quiz tab any time!
                   </p>
                 </div>
                 <Dots onClick={setStep} />
